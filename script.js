@@ -162,6 +162,21 @@ window.addEventListener('click', function(e){
     })
 })
 
+window.addEventListener('touchstart', function(e){
+    const detectPixelColor = collisionCtx.getImageData(e.x, e.y, 1, 1);
+    const pc = detectPixelColor.data;
+    ravens.forEach(object => {
+        if (object.randomColors[0] === pc[0] && object.randomColors[1] === pc[1] && object.randomColors[2] === pc[2]){
+            object.markedForDeletion = true;
+            if (object.hasTrail) {
+                score +=5;
+            } else
+            score++;
+            explosions.push(new Explosion(object.x, object.y, object.width));
+        }
+    })
+})
+
 restartButton.addEventListener("click", () =>{
     ravens.splice(0,ravens.length);
     explosions.splice(0,explosions.length);
